@@ -472,15 +472,13 @@ export default function Dashboard({ session, onLogout }: DashboardProps) {
         </nav>
 
         {pestañaActiva === 'consolas' && (
-          <main style={{ padding: '20px', display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-            {/* SECCIÓN CONSOLAS: Ahora con flex de 4 (crece mucho más) y un mínimo de 300px */}
-            <div style={{ flex: '4 1 300px' }}>
+          <main className="layout-principal" style={{ padding: '20px', display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+            <div className="columna-consolas" style={{ flex: '4 1 300px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
                 <h2 style={{ margin: 0, fontSize: '16px', color: '#a126ff', letterSpacing: '2px', textTransform: 'uppercase' }}>Estado en vivo</h2>
               </div>
               
-              {/* CUADRÍCULA: Ahora exige un mínimo de 340px por tarjeta, forzándolas a verse más grandes y expandidas */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '15px' }}>
+              <div className="cuadricula-consolas" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '15px' }}>
                 {consolas.map((c) => {
                   const sugeridaParaTipo = obtenerConsolaSugerida(c.tipo);
                   return <TarjetaConsola key={c.id} consola={c} tasaBs={tasa} rol={rol} esSugerida={sugeridaParaTipo?.id === c.id} onActualizarEstado={manejarEstadoConsola} onAbrirPrepago={abrirPrepago} onCobrar={abrirModalCobroNormal} onAnular={anularSesionError} onMover={(consola: any) => setConsolaAMover(consola)} onPausar={manejarPausaConsola} />;
@@ -488,8 +486,7 @@ export default function Dashboard({ session, onLogout }: DashboardProps) {
               </div>
             </div>
 
-            {/* SECCIÓN LISTA DE ESPERA: Ahora está restringida a un máximo de 260px para que sea más delgada */}
-            <div className="panel-derecho" style={{ flex: '1 1 240px', maxWidth: '260px' }}>
+            <div className="panel-lateral" style={{ flex: '1 1 240px', maxWidth: '260px' }}>
                <button onClick={() => setMostrarCobroMultiple(true)} style={{ width: '100%', background: 'rgba(121, 40, 202, 0.9)', border: 'none', color: '#fff', padding: '12px', borderRadius: '8px', fontSize: '12px', fontWeight: 'bold', cursor: 'pointer', marginBottom: '20px', backdropFilter: 'blur(5px)' }}>🔗 Cobro Múltiple</button>
                <div style={{ background: 'rgba(21, 14, 40, 0.8)', backdropFilter: 'blur(10px)', borderRadius: '16px', padding: '20px', border: '1px solid rgba(60,42,122,0.5)' }}>
                  <h3 style={{ margin: '0 0 15px 0', color: '#fff', fontSize: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{color: '#ff007f'}}>👥</span> Lista de Espera</h3>
@@ -554,6 +551,7 @@ export default function Dashboard({ session, onLogout }: DashboardProps) {
       {mostrarVentaRapida && <ModalVentaRapida tasa={tasa} onClose={() => setMostrarVentaRapida(false)} onConfirm={prepararCobroVentaRapida} />}
       {mostrarGastos && <ModalGastos tasa={tasa} onClose={() => setMostrarGastos(false)} onConfirm={ejecutarGastoFinal} />}
       
+      {/* MAGIA CSS RESPONSIVA BLINDADA */}
       <style>{`
         :root, body, html {
           margin: 0 !important;
@@ -569,7 +567,7 @@ export default function Dashboard({ session, onLogout }: DashboardProps) {
           width: 100% !important;
         }
 
-        /* Reglas responsivas para proteger la vista en el celular */
+        /* En teléfonos, todo se apila verticalmente y sin scrolls horizontales forzados */
         @media (max-width: 768px) {
           header {
             flex-direction: column !important;
@@ -580,19 +578,41 @@ export default function Dashboard({ session, onLogout }: DashboardProps) {
             justify-content: center !important;
             width: 100%;
           }
-          .panel-derecho {
+
+          /* La pantalla principal: 1 columna hacia abajo */
+          .layout-principal {
+            flex-direction: column !important;
+            padding: 10px !important;
+          }
+          .columna-consolas, .panel-lateral {
             max-width: 100% !important;
             width: 100% !important;
-            flex: 1 1 100% !important;
+            flex: none !important;
           }
-          div[style*="border-radius: 16px"] {
+
+          /* Las consolas: 1 por fila, estiradas al ancho del celular */
+          .cuadricula-consolas {
+            grid-template-columns: 1fr !important;
+          }
+
+          /* Ajuste de ventanas emergentes para que entren en el celular */
+          div[style*="width: 420px"], 
+          div[style*="width: 500px"], 
+          div[style*="width: 600px"],
+          div[style*="width: 700px"],
+          div[style*="width: 800px"] {
+            width: 95vw !important;
+            min-width: 0 !important;
+            margin: 0 auto;
+          }
+
+          /* Si hay una tabla en otra pestaña (Ventas, Clientes), el scroll lateral se aplica SOLO al contenedor de la tabla, no a la pantalla */
+          div:has(> table) {
             overflow-x: auto !important;
+            width: 100% !important;
           }
-          div[style*="border-radius: 16px"] > div[style*="display: flex"] {
-            min-width: 700px !important; 
-          }
-          div[style*="padding: 20px"] {
-            padding: 10px !important;
+          table {
+            min-width: 600px !important; /* Mantiene la tabla legible */
           }
         }
       `}</style>
