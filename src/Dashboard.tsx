@@ -124,7 +124,6 @@ export default function Dashboard({ session, onLogout }: DashboardProps) {
     else return disponibles.find(c => c.tipo === 'PS4') || disponibles[0];
   };
 
-  // Corrección estricta para TypeScript (Promise<boolean>)
   const manejarEstadoConsola = async (id: number, nuevoEstado: string, minutos?: number | null, prepago: boolean = false, clienteNombre?: string | null): Promise<boolean> => {
     if (nuevoEstado === 'ocupado') {
        setIntercepcionCliente({ accion: 'inicio_normal', idConsola: id, minutos, prepago, clienteNombre });
@@ -428,12 +427,12 @@ export default function Dashboard({ session, onLogout }: DashboardProps) {
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(9, 5, 20, 0.45)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', zIndex: 0 }} />
       <div style={{ position: 'relative', zIndex: 1 }}>
         
-        <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 20px', background: 'rgba(13, 9, 26, 0.6)', backdropFilter: 'blur(10px)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+        <header className="header-responsive">
           <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
             <img src="/logo-twins.jpg" alt="Twins Gamer" style={{ width: '42px', height: '42px', borderRadius: '10px', objectFit: 'cover', boxShadow: '0 4px 10px rgba(0,0,0,0.3)' }} />
             <div><h1 style={{ margin: 0, fontSize: '16px', color: '#fff', letterSpacing: '1px' }}>TWINS GAMER</h1><span style={{ fontSize: '9px', color: '#a126ff', letterSpacing: '1px', textTransform: 'uppercase' }}>POS - VENEZUELA</span></div>
           </div>
-          <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
+          <div className="header-botones">
             <div onClick={cambiarTasa} style={{ background: 'rgba(21, 14, 40, 0.8)', padding: '6px 12px', borderRadius: '20px', border: '1px solid #3c2a7a', cursor: rol === 'admin' ? 'pointer' : 'default', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{ fontSize: '11px', color: '#887bb0' }}>TASA BS/$</span><strong style={{ color: '#fff', fontSize: '13px' }}>{tasa} ✏️</strong>
             </div>
@@ -473,12 +472,12 @@ export default function Dashboard({ session, onLogout }: DashboardProps) {
         </nav>
 
         {pestañaActiva === 'consolas' && (
-          <main style={{ padding: '20px', display: 'flex', gap: '20px' }}>
-            <div style={{ flex: 3 }}>
+          <main className="main-responsive">
+            <div className="col-consolas">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
                 <h2 style={{ margin: 0, fontSize: '16px', color: '#a126ff', letterSpacing: '2px', textTransform: 'uppercase' }}>Estado en vivo</h2>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(310px, 1fr))', gap: '15px' }}>
+              <div className="grid-consolas">
                 {consolas.map((c) => {
                   const sugeridaParaTipo = obtenerConsolaSugerida(c.tipo);
                   return <TarjetaConsola key={c.id} consola={c} tasaBs={tasa} rol={rol} esSugerida={sugeridaParaTipo?.id === c.id} onActualizarEstado={manejarEstadoConsola} onAbrirPrepago={abrirPrepago} onCobrar={abrirModalCobroNormal} onAnular={anularSesionError} onMover={(consola: any) => setConsolaAMover(consola)} onPausar={manejarPausaConsola} />;
@@ -486,7 +485,7 @@ export default function Dashboard({ session, onLogout }: DashboardProps) {
               </div>
             </div>
 
-            <div style={{ flex: 1, minWidth: '280px' }}>
+            <div className="col-lista">
                <button onClick={() => setMostrarCobroMultiple(true)} style={{ width: '100%', background: 'rgba(121, 40, 202, 0.9)', border: 'none', color: '#fff', padding: '12px', borderRadius: '8px', fontSize: '12px', fontWeight: 'bold', cursor: 'pointer', marginBottom: '20px', backdropFilter: 'blur(5px)' }}>🔗 Cobro Múltiple</button>
                <div style={{ background: 'rgba(21, 14, 40, 0.8)', backdropFilter: 'blur(10px)', borderRadius: '16px', padding: '20px', border: '1px solid rgba(60,42,122,0.5)' }}>
                  <h3 style={{ margin: '0 0 15px 0', color: '#fff', fontSize: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{color: '#ff007f'}}>👥</span> Lista de Espera</h3>

@@ -1,4 +1,4 @@
-/* Resetear los márgenes por defecto del navegador */
+/* Resetear los márgenes por defecto */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -6,18 +6,92 @@
 }
 
 html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  min-height: 100vh;
-  background-color: #0a0a0a; /* Fondo oscuro por si acaso */
-  overflow-x: hidden; /* Evita que la pantalla se mueva hacia los lados */
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  min-height: 100vh !important;
+  max-width: 100% !important;
+  background-color: #090514 !important;
+  overflow-x: hidden;
   font-family: sans-serif;
 }
 
 #root {
-  width: 100%;
-  min-height: 100vh;
-  margin: 0 auto;
-  padding: 0;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 100vh !important;
+  text-align: left !important;
+}
+
+/* ========================================= */
+/* 🔥 DISEÑO ADAPTATIVO (MÓVILES Y PC) 🔥 */
+/* ========================================= */
+
+.header-responsive {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background: rgba(13, 9, 26, 0.6);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.header-botones {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.main-responsive {
+  padding: 20px;
+  display: flex;
+  gap: 20px;
+  flex-direction: row;
+}
+
+.col-consolas {
+  flex: 3;
+}
+
+.col-lista {
+  flex: 1;
+  min-width: 280px;
+}
+
+.grid-consolas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 15px;
+}
+
+/* 📱 MODO TELÉFONO (DETECTA PANTALLAS PEQUEÑAS) 📱 */
+@media (max-width: 850px) {
+  .header-responsive {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+  }
+  
+  .header-botones {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+  
+  .main-responsive {
+    flex-direction: column; /* Apila las consolas arriba y la lista abajo */
+    padding: 10px;
+  }
+
+  .col-consolas, .col-lista {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .grid-consolas {
+    grid-template-columns: 1fr; /* 1 sola consola grande por fila para el dedo */
+  }
 }
