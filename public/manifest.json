@@ -1,0 +1,20 @@
+{
+    "short_name": "Twins POS",
+    "name": "Twins Gamer POS",
+    "icons": [
+      {
+        "src": "/logo-twins.jpg",
+        "type": "image/jpeg",
+        "sizes": "192x192"
+      },
+      {
+        "src": "/logo-twins.jpg",
+        "type": "image/jpeg",
+        "sizes": "512x512"
+      }
+    ],
+    "start_url": "/",
+    "display": "standalone",
+    "theme_color": "#090514",
+    "background_color": "#090514"
+  }
