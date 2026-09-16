@@ -2,20 +2,24 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    
     <link rel="icon" type="image/jpeg" href="/logo-twins.jpg" />
     <link rel="apple-touch-icon" href="/logo-twins.jpg" />
-    
-    <!-- 🔥 NUEVA LÍNEA: EL MANIFIESTO PARA FORZAR LA INSTALACIÓN 🔥 -->
     <link rel="manifest" href="/manifest.json" />
-    
     <meta name="theme-color" content="#090514" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    
     <title>Twins Gamer POS</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- 🔥 SCRIPT PARA FORZAR LA INSTALACIÓN EN EL TELÉFONO 🔥 -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js');
+        });
+      }
+    </script>
   </body>
 </html>
