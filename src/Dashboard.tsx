@@ -427,12 +427,12 @@ export default function Dashboard({ session, onLogout }: DashboardProps) {
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(9, 5, 20, 0.45)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', zIndex: 0 }} />
       <div style={{ position: 'relative', zIndex: 1 }}>
         
-        <header className="header-responsive">
+        <header style={{ display: 'flex', flexWrap: 'wrap', gap: '15px', justifyContent: 'space-between', alignItems: 'center', padding: '10px 20px', background: 'rgba(13, 9, 26, 0.6)', backdropFilter: 'blur(10px)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
             <img src="/logo-twins.jpg" alt="Twins Gamer" style={{ width: '42px', height: '42px', borderRadius: '10px', objectFit: 'cover', boxShadow: '0 4px 10px rgba(0,0,0,0.3)' }} />
             <div><h1 style={{ margin: 0, fontSize: '16px', color: '#fff', letterSpacing: '1px' }}>TWINS GAMER</h1><span style={{ fontSize: '9px', color: '#a126ff', letterSpacing: '1px', textTransform: 'uppercase' }}>POS - VENEZUELA</span></div>
           </div>
-          <div className="header-botones">
+          <div style={{ display: 'flex', gap: '15px', alignItems: 'center', flexWrap: 'wrap' }}>
             <div onClick={cambiarTasa} style={{ background: 'rgba(21, 14, 40, 0.8)', padding: '6px 12px', borderRadius: '20px', border: '1px solid #3c2a7a', cursor: rol === 'admin' ? 'pointer' : 'default', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{ fontSize: '11px', color: '#887bb0' }}>TASA BS/$</span><strong style={{ color: '#fff', fontSize: '13px' }}>{tasa} ✏️</strong>
             </div>
@@ -472,12 +472,12 @@ export default function Dashboard({ session, onLogout }: DashboardProps) {
         </nav>
 
         {pestañaActiva === 'consolas' && (
-          <main className="main-responsive">
-            <div className="col-consolas">
+          <main style={{ padding: '20px', display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+            <div style={{ flex: '3 1 300px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
                 <h2 style={{ margin: 0, fontSize: '16px', color: '#a126ff', letterSpacing: '2px', textTransform: 'uppercase' }}>Estado en vivo</h2>
               </div>
-              <div className="grid-consolas">
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(310px, 1fr))', gap: '15px' }}>
                 {consolas.map((c) => {
                   const sugeridaParaTipo = obtenerConsolaSugerida(c.tipo);
                   return <TarjetaConsola key={c.id} consola={c} tasaBs={tasa} rol={rol} esSugerida={sugeridaParaTipo?.id === c.id} onActualizarEstado={manejarEstadoConsola} onAbrirPrepago={abrirPrepago} onCobrar={abrirModalCobroNormal} onAnular={anularSesionError} onMover={(consola: any) => setConsolaAMover(consola)} onPausar={manejarPausaConsola} />;
@@ -485,7 +485,7 @@ export default function Dashboard({ session, onLogout }: DashboardProps) {
               </div>
             </div>
 
-            <div className="col-lista">
+            <div style={{ flex: '1 1 280px' }}>
                <button onClick={() => setMostrarCobroMultiple(true)} style={{ width: '100%', background: 'rgba(121, 40, 202, 0.9)', border: 'none', color: '#fff', padding: '12px', borderRadius: '8px', fontSize: '12px', fontWeight: 'bold', cursor: 'pointer', marginBottom: '20px', backdropFilter: 'blur(5px)' }}>🔗 Cobro Múltiple</button>
                <div style={{ background: 'rgba(21, 14, 40, 0.8)', backdropFilter: 'blur(10px)', borderRadius: '16px', padding: '20px', border: '1px solid rgba(60,42,122,0.5)' }}>
                  <h3 style={{ margin: '0 0 15px 0', color: '#fff', fontSize: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{color: '#ff007f'}}>👥</span> Lista de Espera</h3>
@@ -550,6 +550,54 @@ export default function Dashboard({ session, onLogout }: DashboardProps) {
       {mostrarVentaRapida && <ModalVentaRapida tasa={tasa} onClose={() => setMostrarVentaRapida(false)} onConfirm={prepararCobroVentaRapida} />}
       {mostrarGastos && <ModalGastos tasa={tasa} onClose={() => setMostrarGastos(false)} onConfirm={ejecutarGastoFinal} />}
       
+      <style>{`
+        :root, body, html {
+          margin: 0 !important;
+          padding: 0 !important;
+          max-width: 100% !important;
+          width: 100% !important;
+          overflow-x: hidden;
+        }
+        #root {
+          margin: 0 !important;
+          padding: 0 !important;
+          max-width: 100% !important;
+          width: 100% !important;
+        }
+
+        @media (max-width: 768px) {
+          header {
+            flex-direction: column !important;
+            padding: 15px 10px !important;
+            gap: 15px !important;
+          }
+          header > div {
+            justify-content: center !important;
+            width: 100%;
+          }
+
+          div[style*="width: 420px"], 
+          div[style*="width: 500px"], 
+          div[style*="width: 600px"],
+          div[style*="width: 700px"],
+          div[style*="width: 800px"] {
+            width: 95vw !important;
+            min-width: 0 !important;
+          }
+
+          div[style*="border-radius: 16px"] {
+            overflow-x: auto !important;
+          }
+          
+          div[style*="border-radius: 16px"] > div[style*="display: flex"] {
+            min-width: 700px !important; 
+          }
+          
+          div[style*="padding: 20px"] {
+            padding: 10px !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }
